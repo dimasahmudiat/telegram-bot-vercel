@@ -2,13 +2,7 @@
   "name": "telegram-bot-vercel",
   "version": "1.0.0",
   "main": "api/index.js",
-  "scripts": {
-    "start": "node api/index.js"
-  },
   "dependencies": {
-    "telegraf": "^4.11.2"
-  },
-  "engines": {
-    "node": "18.x"
+    "telegraf": "^4.12.2"
   }
 }
