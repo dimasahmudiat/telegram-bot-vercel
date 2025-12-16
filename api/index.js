@@ -1,57 +1,83 @@
 
-// Versi SIMPLE dan PASTI WORKING
-const { Telegraf } = require('telegraf');
+// DEBUG MODE - Simple bot
+console.log('=== BOT LOADING ===');
 
-// Inisialisasi bot
-const bot = new Telegraf(process.env.BOT_TOKEN);
+// Cek environment variable
+if (!process.env.BOT_TOKEN) {
+  console.error('❌ ERROR: BOT_TOKEN is missing!');
+} else {
+  console.log('✅ BOT_TOKEN found (first 10 chars):', process.env.BOT_TOKEN.substring(0, 10) + '...');
+}
 
-// Basic commands
-bot.start((ctx) => {
-  console.log('Start command received');
-  return ctx.reply('✅ Bot aktif dari Vercel!');
-});
+// Import telegraf dengan error handling
+let Telegraf;
+try {
+  Telegraf = require('telegraf').Telegraf;
+  console.log('✅ Telegraf module loaded');
+} catch (error) {
+  console.error('❌ Failed to load telegraf:', error.message);
+}
 
-bot.help((ctx) => {
-  return ctx.reply('Gunakan /start untuk memulai');
-});
+// Buat bot instance jika token ada
+const bot = process.env.BOT_TOKEN && Telegraf ? new Telegraf(process.env.BOT_TOKEN) : null;
 
-bot.on('text', (ctx) => {
-  console.log('Text received:', ctx.message.text);
-  return ctx.reply(`Kamu tulis: ${ctx.message.text}`);
-});
+if (bot) {
+  // Simple commands
+  bot.start((ctx) => {
+    console.log('Start command from:', ctx.from.id);
+    return ctx.reply('🎉 BOT AKTIF DI VERCEL!\nKetik apapun...');
+  });
 
-// Handler untuk Vercel
+  bot.on('text', (ctx) => {
+    return ctx.reply(`Kamu bilang: "${ctx.message.text}"`);
+  });
+
+  console.log('✅ Bot commands registered');
+}
+
+// Vercel function handler
 module.exports = async (req, res) => {
-  console.log('Request received:', req.method, req.url);
+  console.log(`\n=== REQUEST ${new Date().toISOString()} ===`);
+  console.log('Method:', req.method);
+  console.log('Path:', req.url);
   
   try {
-    // Log untuk debugging
-    console.log('BOT_TOKEN exists:', !!process.env.BOT_TOKEN);
-    
+    // Cek jika bot tidak bisa diinisialisasi
+    if (!bot) {
+      console.error('Bot not initialized - check BOT_TOKEN');
+      return res.status(500).json({ 
+        error: 'Bot initialization failed',
+        hint: 'Check BOT_TOKEN environment variable'
+      });
+    }
+
+    // Handle POST (Telegram webhook)
     if (req.method === 'POST') {
       console.log('Processing Telegram update...');
-      
-      // Handle update dari Telegram
       await bot.handleUpdate(req.body, res);
-      
-      console.log('Update processed successfully');
-    } else {
-      // Untuk GET request
+      console.log('✅ Update processed');
+    } 
+    // Handle GET (health check)
+    else {
       res.status(200).json({
-        success: true,
-        message: 'Bot is running on Vercel',
+        status: 'online',
+        service: 'Telegram Bot',
+        platform: 'Vercel',
         timestamp: new Date().toISOString(),
-        endpoint: '/api (POST) for Telegram webhook'
+        endpoints: {
+          webhook: 'POST /',
+          health: 'GET /'
+        }
       });
     }
   } catch (error) {
-    console.error('❌ ERROR:', error.message);
-    console.error('Stack:', error.stack);
+    console.error('❌ CRITICAL ERROR:', error.message);
+    console.error(error.stack);
     
     res.status(500).json({
-      success: false,
-      error: error.message,
-      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      error: 'Server error',
+      message: error.message,
+      timestamp: new Date().toISOString()
     });
   }
 };
