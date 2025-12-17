@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Bot - Free Fire License</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .features {
+            text-align: left;
+            margin: 2rem 0;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            width: 40px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+        }
+        
+        .status {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .footer {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .logo {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🎮</div>
+        <h1>Free Fire License Bot</h1>
+        <p class="subtitle">Bot Telegram untuk pembelian lisensi Free Fire & Free Fire MAX</p>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🛒</div>
+                <div>Beli lisensi baru (Random/Manual)</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⏰</div>
+                <div>Extend masa aktif akun</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎁</div>
+                <div>Tukar point dengan lisensi gratis</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💳</div>
+                <div>Pembayaran QRIS otomatis</div>
+            </div>
+        </div>
+        
+        <a href="https://t.me/your_bot_username" class="btn" target="_blank">
+            🚀 Mulai Chat dengan Bot
+        </a>
+        
+        <a href="/set-webhook" class="btn btn-secondary" onclick="setupWebhook()">
+            ⚙️ Setup Webhook
+        </a>
+        
+        <div class="status" id="status">
+            <strong>Status:</strong> Bot siap digunakan! Klik tombol di atas untuk memulai.
+        </div>
+        
+        <div class="footer">
+            <p>© 2024 Free Fire License Bot. Powered by Vercel.</p>
+        </div>
+    </div>
+
+    <script>
+        async function setupWebhook() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = '<strong>Status:</strong> Mengatur webhook...';
+            
+            try {
+                const response = await fetch('/set-webhook');
+                const result = await response.json();
+                
+                if (result.success) {
+                    statusDiv.innerHTML = `<strong>Status:</strong> ✅ Webhook berhasil diatur!<br><small>URL: ${result.webhook_url}</small>`;
+                } else {
+                    statusDiv.innerHTML = `<strong>Status:</strong> ❌ Gagal mengatur webhook<br><small>${result.error || 'Unknown error'}</small>`;
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<strong>Status:</strong> ❌ Error: ${error.message}`;
+            }
+        }
+        
+        // Auto-check webhook status on load
+        window.addEventListener('load', function() {
+            // You can add auto webhook check here if needed
+        });
+    </script>
+</body>
+</html>
