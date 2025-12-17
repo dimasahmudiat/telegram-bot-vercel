@@ -1,16 +1,24 @@
 {
-  "name": "telegram-bot-vercel-pro",
-  "version": "2.0.0",
-  "description": "Telegram Bot with complete menu hosted on Vercel",
-  "main": "api/index.js",
+  "name": "telegram-bot-vercel",
+  "version": "1.0.0",
+  "description": "Telegram Bot for Free Fire License with Vercel deployment",
+  "main": "index.html",
   "scripts": {
-    "start": "node api/index.js",
-    "dev": "node api/index.js"
+    "dev": "vercel dev",
+    "build": "echo 'No build step required'",
+    "deploy": "vercel --prod"
   },
-  "dependencies": {
-    "telegraf": "^4.12.2"
-  },
+  "keywords": [
+    "telegram",
+    "bot",
+    "php",
+    "vercel",
+    "free-fire",
+    "license"
+  ],
+  "author": "Dimas",
+  "license": "MIT",
   "engines": {
-    "node": ">=18"
+    "node": ">=14"
   }
 }
