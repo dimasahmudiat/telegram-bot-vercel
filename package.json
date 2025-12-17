@@ -1,24 +1,24 @@
 {
   "name": "telegram-bot-vercel",
   "version": "1.0.0",
-  "description": "Telegram Bot for Free Fire License with Vercel deployment",
-  "main": "index.html",
+  "description": "Telegram Bot for Free Fire License",
+  "main": "api/bot.js",
   "scripts": {
-    "dev": "vercel dev",
-    "build": "echo 'No build step required'",
-    "deploy": "vercel --prod"
+    "start": "node api/bot.js",
+    "dev": "nodemon api/bot.js"
   },
-  "keywords": [
-    "telegram",
-    "bot",
-    "php",
-    "vercel",
-    "free-fire",
-    "license"
-  ],
-  "author": "Dimas",
-  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^2.6.7",
+    "mysql2": "^3.6.0",
+    "axios": "^1.6.0",
+    "crypto": "^1.0.1",
+    "cron-parser": "^4.9.0",
+    "form-data": "^4.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
   "engines": {
-    "node": ">=14"
+    "node": "18.x"
   }
 }
