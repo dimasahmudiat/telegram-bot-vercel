@@ -1,36 +1,30 @@
 {
-  "version": 2,
   "functions": {
-    "api/webhook.php": {
-      "runtime": "vercel-php@0.6.0"
+    "api/bot.js": {
+      "maxDuration": 30
     },
-    "api/set-webhook.php": {
-      "runtime": "vercel-php@0.6.0"
+    "api/cron.js": {
+      "maxDuration": 30
     }
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/webhook",
-      "dest": "/api/webhook.php"
+      "source": "/bot",
+      "destination": "/api/bot.js"
     },
     {
-      "src": "/set-webhook",
-      "dest": "/api/set-webhook.php"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/cron",
+      "destination": "/api/cron.js"
     }
   ],
   "env": {
-    "DB_HOST": "@db_host",
-    "DB_USERNAME": "@db_username", 
-    "DB_PASSWORD": "@db_password",
-    "DB_NAME": "@db_name",
-    "API_KEY": "@api_key",
-    "MERCHANT_CODE": "@merchant_code",
-    "BOT_TOKEN": "@bot_token",
-    "ADMIN_CHAT_ID": "@admin_chat_id",
-    "WELCOME_IMAGE": "@welcome_image"
+    "DB_HOST": "@db-host",
+    "DB_USER": "@db-user",
+    "DB_PASSWORD": "@db-password",
+    "DB_NAME": "@db-name",
+    "BOT_TOKEN": "@bot-token",
+    "ADMIN_CHAT_ID": "@admin-chat-id",
+    "API_KEY": "@api-key",
+    "MERCHANT_CODE": "@merchant-code"
   }
 }
